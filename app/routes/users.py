@@ -1,5 +1,7 @@
-from fastapi import APIRouter, HTTPException
-
+from fastapi import (
+    APIRouter,
+    Depends
+)
 from app.schemas.user import (
     CreateUserResponse,
     FullUserProfile,
@@ -7,6 +9,7 @@ from app.schemas.user import (
 )
 from app.services.user import UserService
 import logging
+from app.dependencies import rate_limit
 
 logger = logging.getLogger(__name__)
 
@@ -15,6 +18,7 @@ def create_user_router():
     user_route = APIRouter(
         prefix="/user",
         tags=["user"],
+        dependencies=[Depends(rate_limit)]
     )
     user_service = UserService()
 
@@ -25,18 +29,15 @@ def create_user_router():
         return response
 
     @user_route.get("/all", response_model=UserListResponse)
-    def get_all_users_paginated_endpoint(start: int = 0, count: int = 2):
-        users, total_users = user_service.get_all_users_paginated(start, count)
+    async def get_all_users_paginated_endpoint(start: int = 0, count: int = 2):
+        users, total_users = await user_service.get_all_users_paginated(start, count)
         response = UserListResponse(users=users, total_users=total_users)
         return response
 
     @user_route.get("/{user_id}", response_model=FullUserProfile)
     async def get_user_by_id_endpoint(user_id: int):
-        # try:
         full_user_profile = await user_service.get_user_by_id(user_id)
         return full_user_profile
-        # except KeyError:
-        #     raise HTTPException(status_code=404, detail=f"user {user_id} not found")
 
     @user_route.put("/{user_id}")
     async def update_or_create_user_endpoint(user_id: int, full_user_profile: FullUserProfile):
@@ -44,10 +45,6 @@ def create_user_router():
 
     @user_route.delete("/{user_id}")
     async def delete_user_endpoint(user_id: int):
-        # try:
         await user_service.delete_user(user_id)
-        # except KeyError:
-        #     logger.error(f"User id {user_id} was not found")
-        #     raise HTTPException(status_code=404, detail=f"user id {user_id} not found")
 
     return user_route
