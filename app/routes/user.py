@@ -14,13 +14,13 @@ from app.dependencies import rate_limit
 logger = logging.getLogger(__name__)
 
 
-def create_user_router():
+def create_user_router(users_content: dict, profiles_info: dict):
     user_route = APIRouter(
         prefix="/user",
         tags=["user"],
         dependencies=[Depends(rate_limit)]
     )
-    user_service = UserService()
+    user_service = UserService(users_content=users_content, profiles_info=profiles_info)
 
     @user_route.post("/", response_model=CreateUserResponse, status_code=201)
     async def add_user_endpoint(full_profile_info: FullUserProfile):
