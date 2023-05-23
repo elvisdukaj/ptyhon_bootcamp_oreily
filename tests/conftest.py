@@ -3,7 +3,7 @@ from app.services.user import UserService
 
 
 @pytest.fixture
-def profiles_info():
+def _profiles_info():
     val: dict[int, dict] = {
         0: {
             "short_bio": "default",
@@ -18,7 +18,7 @@ def profiles_info():
 
 
 @pytest.fixture
-def users_content():
+def _users_content():
     val: dict[int, dict] = {
         0: {
             "username": "default",
@@ -33,6 +33,6 @@ def users_content():
 
 
 @pytest.fixture
-def user_service(users_content, profiles_info):
-    user_service = UserService(users_content, profiles_info)
+def user_service(_users_content, _profiles_info):
+    user_service = UserService(_users_content, _profiles_info)
     return user_service
