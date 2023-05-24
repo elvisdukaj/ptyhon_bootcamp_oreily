@@ -12,6 +12,8 @@ pydentic = "*"
 mypy = "*"
 pytest = "*"
 pytest-asyncio = "*"
+requests = "*"
+httpx = "*"
 
 [requires]
 python_version = "3.11"

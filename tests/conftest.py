@@ -1,38 +1,18 @@
 import pytest
-from app.services.user import UserService
+from app.schemas.user import User, FullUserProfile
 
 
-@pytest.fixture
-def _profiles_info():
-    val: dict[int, dict] = {
-        0: {
-            "short_bio": "default",
-            "long_bio": "default"
-        },
-        1: {
-            "short_bio": "he is cool",
-            "long_bio": "He is a very cool guy"
-        }
-    }
-    return val
+@pytest.fixture(scope="session")
+def valid_user_id() -> int:
+    return 0
 
 
-@pytest.fixture
-def _users_content():
-    val: dict[int, dict] = {
-        0: {
-            "username": "default",
-            "liked_posts": []
-        },
-        1: {
-            "username": "edukaj",
-            "liked_posts": [1, 2, 3]
-        }
-    }
-    return val
+@pytest.fixture(scope="session")
+def invalid_user_delete_id() -> int:
+    return 1000
 
 
-@pytest.fixture
-def user_service(_users_content, _profiles_info):
-    user_service = UserService(_users_content, _profiles_info)
-    return user_service
+@pytest.fixture(scope="session")
+def sample_full_user_profile() -> FullUserProfile:
+    return FullUserProfile(short_bio="the best", long_bio="the most wonderful", username="stefanie.zoechmann",
+                           liked_posts=[1, 2])

@@ -8,7 +8,7 @@ import time
 response_count: int = 0
 response_start_time: float = time.time()
 response_interval: float = 30.0  # seconds
-response_limit_rate: int = 5  # maximum replies in the interval
+response_limit_rate: int = 50  # maximum replies in the interval
 
 
 def rate_limit(response: Response) -> Response:
