@@ -5,12 +5,12 @@ import responses
 @responses.activate
 def test_get_and_parse_user_works_properly():
     base_url = 'http://someurl.com'
-    endpoint_prefix = "/user/"
+    endpoint_prefix = "user"
     user_id = 0
 
     res = responses.add(
         method=responses.GET,
-        url=f"{base_url}{endpoint_prefix}{user_id}",
+        url=f"{base_url}/{endpoint_prefix}/{user_id}",
         json={"user": user_id},
         status=200,
         headers={}

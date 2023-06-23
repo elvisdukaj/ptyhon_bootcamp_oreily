@@ -16,6 +16,8 @@ pytest = "*"
 pytest-asyncio = "*"
 httpx = "*"
 responses = "*"
+aioresponses = "*"
+pytest-cov = "*"
 
 [requires]
 python_version = "3.11"

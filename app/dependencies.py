@@ -11,7 +11,7 @@ response_interval: float = 30.0  # seconds
 response_limit_rate: int = 50  # maximum replies in the interval
 
 
-def rate_limit(response: Response) -> Response:
+def rate_limit(response: Response) -> None:
     global response_start_time
     global response_count
 
@@ -32,4 +32,4 @@ def rate_limit(response: Response) -> Response:
     response_count += 1
     response.headers["X-app-rate-limit"] = f"{response_count}:{response_limit_rate}"
 
-    return response
+    return None
