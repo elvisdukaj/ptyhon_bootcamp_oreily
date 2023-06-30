@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI
 from app.routes.user import create_user_router
 from app.exception_handlers import add_exception_handlers
@@ -40,5 +42,11 @@ def create_users_content_and_profiles_info():
 
     return users_content, profiles_info
 
+
+
+
+from models import recreate_postgres_tables
+
+recreate_postgres_tables()
 
 app = create_application()
